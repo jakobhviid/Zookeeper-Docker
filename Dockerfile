@@ -10,10 +10,10 @@ RUN chmod +x /tmp/*.sh && \
     mv /tmp/*.sh /usr/bin && \
     rm -rf /tmp/*.sh
 
-COPY ./apache-zookeeper-3.5.6-bin.tar /opt/
-# ADD http://ftp.download-by.net/apache/zookeeper/zookeeper-3.5.6/apache-zookeeper-3.5.6-bin.tar.gz /opt/
+# COPY ./apache-zookeeper-3.5.6-bin.tar /opt/
+ADD http://ftp.download-by.net/apache/zookeeper/zookeeper-3.5.6/apache-zookeeper-3.5.6-bin.tar.gz /opt/
 RUN cd /opt && \
-    tar -xf apache-zookeeper-3.5.6-bin.tar && \
+    tar -xzf apache-zookeeper-3.5.6-bin.tar.gz && \
     mv apache-zookeeper-3.5.6-bin zookeeper && \
     rm -rf ./apache-zookeeper-*tar && \
     cp /tmp/configuration.cfg /opt/zookeeper/conf/zoo.cfg && \
