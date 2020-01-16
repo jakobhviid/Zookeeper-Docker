@@ -1,5 +1,12 @@
 #!/bin/bash
 
+echo "10.133.124.58 kafka1 \
+    10.133.124.58 zookeeper1 \
+    10.133.124.111 kafka2 \
+    10.133.124.111 zookeeper2 \
+    10.133.124.140 kafka3 \
+    10.133.124.140 zookeeper3" | tee --append /etc/hosts
+
 if [[ -z "$ZOO_ID" ]]
 then 
     echo "ERROR Missing essential zookeeper machine id."
@@ -28,7 +35,7 @@ else
     echo "INFO ZOO_SERVERS set - Deploying multi-clustered setup"
 
     # Clustered(Multi-server) zookeeper setup
-    IFS=';' # Internal fioeld seperator
+    IFS=',' # Internal field seperator
     read -r -a zookeepers <<< "$ZOO_SERVERS"
     for zookeeperServer in "${zookeepers[@]}"
     do
