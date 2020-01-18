@@ -44,8 +44,8 @@ else
 fi
 
 # Server.id insertion necessarry for a multi clustered setup
-touch /opt/zookeeper/data/myid
-echo $ZOO_ID >> /opt/zookeeper/data/myid
+touch /data/zookeeper/myid
+echo $ZOO_ID >> /data/zookeeper/myid
 
 # Client port in zookeepeer configuration file
 echo -e "\nclientPort="$ZOO_PORT >> /opt/zookeeper/conf/zoo.cfg

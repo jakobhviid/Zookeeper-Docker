@@ -10,16 +10,21 @@ RUN chmod +x /tmp/*.sh && \
     mv /tmp/*.sh /usr/bin && \
     rm -rf /tmp/*.sh
 
-ADD http://ftp.download-by.net/apache/zookeeper/zookeeper-3.5.6/apache-zookeeper-3.5.6-bin.tar.gz /opt/
+ADD https://apache.org/dist/zookeeper/zookeeper-3.4.14/zookeeper-3.4.14.tar.gz /opt/
 RUN cd /opt && \
-    tar -xzf apache-zookeeper-3.5.6-bin.tar.gz && \
-    mv apache-zookeeper-3.5.6-bin zookeeper && \
-    rm -rf ./apache-zookeeper-*tar && \
+    tar -xzf zookeeper-3.4.14.tar.gz && \
+    mv zookeeper-3.4.14 zookeeper && \
+    rm /opt/zookeeper-3.4.14.tar.gz && \
     cp /tmp/configuration.cfg /opt/zookeeper/conf/zoo.cfg && \
-    mkdir /opt/zookeeper/data
+    mkdir /data && \
+    mkdir /data/zookeeper
+
 
 EXPOSE 2181 2888 3888
 
 HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 CMD [ "healthcheck.sh" ]
+
+WORKDIR /opt/zookeeper
+# VOLUME [ "/data/zookeeper" ]
 
 CMD ["start.sh"]
