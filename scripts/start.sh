@@ -1,22 +1,9 @@
 #!/bin/bash
 
-echo "10.133.124.58 kafka1 \
-    10.133.124.58 zookeeper1 \
-    10.133.124.111 kafka2 \
-    10.133.124.111 zookeeper2 \
-    10.133.124.140 kafka3 \
-    10.133.124.140 zookeeper3" | tee --append /etc/hosts
-
 if [[ -z "$ZOO_ID" ]]
 then 
     echo "ERROR Missing essential zookeeper machine id."
     exit 1
-# else
-#     if ! [[ $ZOO_ID =~ ^-?[0-9]+$ ]] && [ $ZOO_ID -ge 1 -a $ZOO_ID -le 255 ]; # ZOO_ID is a valid integer
-#     then
-#         echo "ERROR ZOO_ID must be between 1 - 255"
-#         exit 1
-#     fi
 fi
 
 if [ -z "$ZOO_PORT" ]
