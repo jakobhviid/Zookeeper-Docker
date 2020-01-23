@@ -3,7 +3,6 @@
 # Check to see if zookeeper process is running inside container
 zookeeperProcess=`ps -x | grep java | grep zookeeper`
 
-
 if ! [[ -z "$zookeeperProcess" ]] # If zookeeperProcess is not empty
 then
     # Check to see if it's possible to communicate with the zookeeper server (Trying to get ids of all kafka brokers)
