@@ -4,12 +4,6 @@ if [[ -z "$ZOO_ID" ]]
 then 
     echo "ERROR Missing essential zookeeper machine id."
     exit 1
-# else
-#     if ! [[ $ZOO_ID =~ ^-?[0-9]+$ ]] && [ $ZOO_ID -ge 1 -a $ZOO_ID -le 255 ]; # ZOO_ID is a valid integer
-#     then
-#         echo "ERROR ZOO_ID must be between 1 - 255"
-#         exit 1
-#     fi
 fi
 
 if [ -z "$ZOO_PORT" ]
@@ -28,7 +22,7 @@ else
     echo "INFO ZOO_SERVERS set - Deploying multi-clustered setup"
 
     # Clustered(Multi-server) zookeeper setup
-    IFS=';' # Internal fioeld seperator
+    IFS=',' # Internal field seperator
     read -r -a zookeepers <<< "$ZOO_SERVERS"
     for zookeeperServer in "${zookeepers[@]}"
     do
@@ -37,8 +31,8 @@ else
 fi
 
 # Server.id insertion necessarry for a multi clustered setup
-touch /opt/zookeeper/data/myid
-echo $ZOO_ID >> /opt/zookeeper/data/myid
+touch /data/zookeeper/myid
+echo $ZOO_ID >> /data/zookeeper/myid
 
 # Client port in zookeepeer configuration file
 echo -e "\nclientPort="$ZOO_PORT >> /opt/zookeeper/conf/zoo.cfg
