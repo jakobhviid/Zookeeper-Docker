@@ -2,7 +2,7 @@ version: "3"
 
 services:
   zoo:
-    image: omvk97/zookeepertest:0.5.8
+    image: omvk97/zookeepertest:0.6
     ports:
       - "2181:2181"
       - "2888:2888"
@@ -10,5 +10,5 @@ services:
     environment:
       ZOO_ID: 1
       ZOO_PORT: 2181
-      ZOO_SERVERS: server.1=0.0.0.0:2888:3888,server.2=167.172.43.211:2888:$
+      ZOO_SERVERS: server.1=0.0.0.0:2888:3888,server.2=178.62.223.195:2888:3888,server.3=188.166.44.123:2888:3888
     restart: always
