@@ -1,7 +1,7 @@
 FROM ubuntu:18.04
 
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends openjdk-8-jre-headless
+RUN apt update && \
+    apt install -y --no-install-recommends openjdk-8-jre-headless
     
 # Copy necessary scripts + configuration
 COPY scripts configuration.cfg /tmp/

@@ -2,7 +2,8 @@ version: "3"
 
 services:
   zoo:
-    image: omvk97/zookeepertest:0.6
+    image: cfei/zookeeper
+    container_name: zookeeper
     ports:
       - "2181:2181"
       - "2888:2888"
