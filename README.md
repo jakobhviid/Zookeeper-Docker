@@ -8,6 +8,24 @@ It is necessary to open ports on the host machine. 2181 (client connections) and
 
 A few environment variabels are required for zookeeper to work properly in a cluster. Some environemnt variables can also be set but is not required as defaults work out of the box.
 
+```
+version: "3"
+
+services:
+  zoo:
+    image: cfei/zookeeper
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+      - "2888:2888"
+      - "3888:3888"
+    environment:
+      ZOO_ID: 1
+      ZOO_PORT: 2181
+      ZOO_SERVERS: server.1=0.0.0.0:2888:3888,server.2=178.62.223.195:2888:3888,server.3=188.166.44.123:2888:3888
+    restart: always
+```
+
 # Configuration
 
 **Configurations required for a clustered setup**

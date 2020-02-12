@@ -1,8 +1,10 @@
 FROM ubuntu:18.04
 
+ENV ZOOKEEPER_HOME=/opt/zookeeper
+
 RUN apt update && \
     apt install -y --no-install-recommends openjdk-8-jre-headless
-    
+
 # Copy necessary scripts + configuration
 COPY scripts configuration.cfg /tmp/
 RUN chmod +x /tmp/*.sh && \
@@ -14,9 +16,9 @@ RUN chmod +x /tmp/*.sh && \
 COPY zookeeper-3.4.14.tar.gz /opt/
 RUN cd /opt && \
     tar -xzf zookeeper-3.4.14.tar.gz && \
-    mv zookeeper-3.4.14 zookeeper && \
+    mv zookeeper-3.4.14 ${ZOOKEEPER_HOME} && \
     rm /opt/zookeeper-3.4.14.tar.gz && \
-    cp /tmp/configuration.cfg /opt/zookeeper/conf/zoo.cfg
+    cp /tmp/configuration.cfg ${ZOOKEEPER_HOME}/conf/zoo.cfg
 
 EXPOSE 2181 2888 3888
 
@@ -24,6 +26,6 @@ HEALTHCHECK --interval=30s --timeout=20s --start-period=15s --retries=2 CMD [ "h
 
 VOLUME [ "/data/zookeeper" ]
 
-WORKDIR /opt/zookeeper
+WORKDIR ${ZOOKEEPER_HOME}
 
 CMD ["start.sh"]
