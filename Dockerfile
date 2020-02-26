@@ -18,13 +18,14 @@ RUN cd /opt && \
     tar -xzf zookeeper-3.4.14.tar.gz && \
     mv zookeeper-3.4.14 ${ZOOKEEPER_HOME} && \
     rm /opt/zookeeper-3.4.14.tar.gz && \
-    cp /tmp/configuration.cfg ${ZOOKEEPER_HOME}/conf/zoo.cfg
+    cp /tmp/configuration.cfg ${ZOOKEEPER_HOME}/conf/zoo.cfg && \
+    mkdir -p /datalog/zookeeper
 
 EXPOSE 2181 2888 3888
 
 HEALTHCHECK --interval=30s --timeout=20s --start-period=15s --retries=2 CMD [ "healthcheck.sh" ]
 
-VOLUME [ "/data/zookeeper" ]
+VOLUME [ "/data/zookeeper", "/datalog/zookeeper" ]
 
 WORKDIR ${ZOOKEEPER_HOME}
 
