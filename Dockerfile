@@ -12,20 +12,26 @@ RUN chmod +x /tmp/*.sh && \
     rm -rf /tmp/*.sh
 
 # Install Zookeeper
-#ADD https://apache.org/dist/zookeeper/zookeeper-3.4.14/zookeeper-3.4.14.tar.gz /opt/
 COPY zookeeper-3.4.14.tar.gz /opt/
 RUN cd /opt && \
     tar -xzf zookeeper-3.4.14.tar.gz && \
     mv zookeeper-3.4.14 ${ZOOKEEPER_HOME} && \
     rm /opt/zookeeper-3.4.14.tar.gz && \
     cp /tmp/configuration.cfg ${ZOOKEEPER_HOME}/conf/zoo.cfg && \
-    mkdir -p /datalog/zookeeper
+    mkdir -p /data/zookeeper && mkdir -p /datalog/zookeeper && mkdir /sasl/
+
+# Support for kerberos
+COPY ./krb5.conf ${ZOOKEEPER_HOME}/conf/krb5.conf
 
 EXPOSE 2181 2888 3888
 
-HEALTHCHECK --interval=30s --timeout=20s --start-period=15s --retries=2 CMD [ "healthcheck.sh" ]
+HEALTHCHECK --interval=60s --timeout=20s --start-period=25s --retries=2 CMD [ "healthcheck.sh" ]
 
-VOLUME [ "/data/zookeeper", "/datalog/zookeeper" ]
+ENV ZOOKEEPER_DATA_HOME=/data/zookeeper
+ENV ZOOKEEPER_LOGS_HOME=/datalog/zookeeper
+ENV ZOOKEEPER_SASL_HOME=/sasl
+
+VOLUME [ "${ZOOKEEPER_DATA_HOME}", "${ZOOKEEPER_LOGS_HOME}" ]
 
 WORKDIR ${ZOOKEEPER_HOME}
 
