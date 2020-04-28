@@ -6,15 +6,15 @@ services:
     container_name: zookeeper
     restart: always
     ports:
-      - "2181:2181"
-      - "2888:2888"
-      - "3888:3888"
+      - 2181:2181
+      - 2888:2888
+      - 3888:3888
     environment:
       ZOO_ID: 1
       ZOO_PORT: 2181
       # ZOO_SERVERS: server.1=0.0.0.0:2888:3888,server.2=kafka2.cfei.dk:2888:3888,server.3=kafka3.cfei.dk:2888:3888
       ZOO_AUTHENTICATION: KERBEROS
-      KERBEROS_PRINCIPAL: zookeeper/localhost@KAFKA.SECURE
+      KERBEROS_PRINCIPAL: zookeeper/159.65.34.244@KAFKA.SECURE
       KERBEROS_PUBLIC_URL: 134.209.204.101
       KERBEROS_REALM: KAFKA.SECURE
     volumes:
