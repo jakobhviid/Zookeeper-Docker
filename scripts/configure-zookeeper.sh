@@ -34,11 +34,7 @@ function configure_kerberos_server_in_krb5_file() {
     if [ "$#" -ne 2 ]; then
         echo -e "\e[1;32mconfigure_kerberos_server_in_krb5_file not used correctly! Provide two parameters (public url of kerberos server and kerberos realm) \e[0m"
     else
-        echo "[realms]
-        "$1" = {
-        admin_server="$2"
-        kdc="$2"
-        }" >>"$ZOOKEEPER_HOME"/conf/krb5.conf
+        printf "\n[realms]\n"$1" = {\nadmin_server="$2"\nkdc="$2"\n}" >>"$ZOOKEEPER_HOME"/conf/krb5.conf
         awk -v kerberos_realm=${1} '/default_realm/{c++;if(c==1){sub("default_realm.*","default_realm="kerberos_realm);c=0}}1' "$ZOOKEEPER_HOME"/conf/krb5.conf >/tmp/tmpfile && mv /tmp/tmpfile "$ZOOKEEPER_HOME"/conf/krb5.conf
     fi
 }
@@ -69,11 +65,11 @@ if ! [[ -z "$ZOO_AUTHENTICATION" ]]; then
         fi
 
         # Configure zookeeper to use sasl authentication (kerberos) and renew the ticket every hour.
-        printf "\nauthProvider.1=org.apache.zookeeper.server.auth.SASLAuthenticationProvider\njaasLoginRenew=3600000\nrequireClientAuthScheme=sasl\nquorum.auth.enableSasl=true\nquorum.auth.learnerRequireSasl=true\nquorum.auth.serverRequireSasl=true\nquorum.auth.learner.loginContext=QuorumLearner\nquorum.auth.server.loginContext=QuorumServer\nquorum.cnxn.threads.size=20\n" >>"$ZOOKEEPER_HOME"/conf/zoo.cfg
+        printf "\nauthProvider.1=org.apache.zookeeper.server.auth.SASLAuthenticationProvider\njaasLoginRenew=3600000\n" >>"$ZOOKEEPER_HOME"/conf/zoo.cfg
 
-        # Create and add to a jaas_conf which zookeeper will use as sasl identity
+        # Create and replace contents in the zookeeper_jaas.conf which zookeeper will use as sasl identity
         touch "$ZOOKEEPER_HOME"/conf/zookeeper_jaas.conf
-        printf "Server {\n\tcom.sun.security.auth.module.Krb5LoginModule required\n\tuseKeyTab=true\n\tstoreKey=true\n\tkeyTab=\""$keytab_location"\"\n\tprincipal=\""$KERBEROS_PRINCIPAL"\";\n};\n" >>"$ZOOKEEPER_HOME"/conf/zookeeper_jaas.conf
+        printf "Server {\n\tcom.sun.security.auth.module.Krb5LoginModule required\n\tuseKeyTab=true\n\tstoreKey=true\n\tkeyTab=\""$keytab_location"\"\n\tprincipal=\""$KERBEROS_PRINCIPAL"\";\n};\n" >"$ZOOKEEPER_HOME"/conf/zookeeper_jaas.conf
 
         # configure krb5.conf for kerberos server
         configure_kerberos_server_in_krb5_file "$KERBEROS_REALM" "$KERBEROS_PUBLIC_URL"
