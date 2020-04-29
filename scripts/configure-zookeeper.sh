@@ -75,3 +75,7 @@ if ! [[ -z "$ZOO_AUTHENTICATION" ]]; then
         configure_kerberos_server_in_krb5_file "$KERBEROS_REALM" "$KERBEROS_PUBLIC_URL"
     fi
 fi
+
+if ! [[ -z "$ZOO_REMOVE_HOST_AND_REALM" ]]; then
+    printf "\nkerberos.removeHostFromPrincipal=true\nkerberos.removeRealmFromPrincipal=true\n" >>"$ZOOKEEPER_HOME"/conf/zoo.cfg
+fi
