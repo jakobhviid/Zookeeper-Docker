@@ -3,7 +3,7 @@ FROM ubuntu:18.04
 ENV ZOOKEEPER_HOME=/opt/zookeeper
 
 RUN apt update && \
-    apt install -y --no-install-recommends openjdk-8-jre-headless
+    apt install -y --no-install-recommends openjdk-8-jre-headless curl
 
 # Copy necessary scripts + configuration
 COPY scripts configuration.cfg /tmp/
