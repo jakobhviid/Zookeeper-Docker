@@ -44,12 +44,12 @@ if ! [[ -z "$ZOO_AUTHENTICATION" ]]; then
     if [[ ${ZOO_AUTHENTICATION} == KERBEROS ]]; then
 
         if [[ -z "${ZOO_KERBEROS_PUBLIC_URL}" ]]; then
-            echo -e "\e[1;32mERROR - Missing 'KERBEROS_PUBLIC_URL' environment variable. This is required to enable kerberos \e[0m"
+            echo -e "\e[1;32mERROR - Missing 'ZOO_KERBEROS_PUBLIC_URL' environment variable. This is required to enable kerberos \e[0m"
             exit 1
         fi
 
         if [[ -z "${ZOO_KERBEROS_REALM}" ]]; then
-            echo -e "\e[1;32mERROR - Missing 'KERBEROS_REALM' environment variable. This is required to enable kerberos \e[0m"
+            echo -e "\e[1;32mERROR - Missing 'ZOO_KERBEROS_REALM' environment variable. This is required to enable kerberos \e[0m"
             exit 1
         fi
 
@@ -62,18 +62,18 @@ if ! [[ -z "$ZOO_AUTHENTICATION" ]]; then
             else # the user wants to use a kerberos api to get keytabs
 
                 # Test for all the required environment variables for kerberos api setup
-                if [[ -z "${ZOO_KERBEROS_API_ZOOKEEPER_USERNAME}" ]]; then
-                    echo -e "\e[1;32mERROR - Missing 'ZOO_KERBEROS_API_ZOOKEEPER_USERNAME' environment variable. This is required to use kerberos API for zookeeper keytab \e[0m"
+                if [[ -z "${ZOO_KERBEROS_API_USERNAME}" ]]; then
+                    echo -e "\e[1;32mERROR - Missing 'ZOO_KERBEROS_API_USERNAME' environment variable. This is required to use kerberos API for zookeeper keytab \e[0m"
                     exit 1
                 fi
-                if [[ -z "${ZOO_KERBEROS_API_ZOOKEEPER_PASSWORD}" ]]; then
-                    echo -e "\e[1;32mERROR - Missing 'ZOO_KERBEROS_API_ZOOKEEPER_PASSWORD' environment variable. This is required to use kerberos API for zookeeper keytab \e[0m"
+                if [[ -z "${ZOO_KERBEROS_API_PASSWORD}" ]]; then
+                    echo -e "\e[1;32mERROR - Missing 'ZOO_KERBEROS_API_PASSWORD' environment variable. This is required to use kerberos API for zookeeper keytab \e[0m"
                     exit 1
                 fi
 
-                export ZOO_KERBEROS_PRINCIPAL="$ZOO_KERBEROS_API_ZOOKEEPER_USERNAME"@"$ZOO_KERBEROS_REALM"
+                export ZOO_KERBEROS_PRINCIPAL="$ZOO_KERBEROS_API_USERNAME"@"$ZOO_KERBEROS_REALM"
                 # response will be 'FAIL' if it can't connect or if the url returned an error
-                response=$(curl --fail -X GET -H "Content-Type: application/json" -d "{\"username\":\""$ZOO_KERBEROS_API_ZOOKEEPER_USERNAME"\", \"password\":\""$ZOO_KERBEROS_API_ZOOKEEPER_PASSWORD"\"}" "$ZOO_KERBEROS_API_URL" -o "$keytab_location" && echo "INFO - Using the keytab from the API and a principal name of '"$ZOO_KERBEROS_API_ZOOKEEPER_USERNAME"'@'"$KERBEROS_REALM"'" || echo "FAIL" )
+                response=$(curl --fail -X GET -H "Content-Type: application/json" -d "{\"username\":\""$ZOO_KERBEROS_API_USERNAME"\", \"password\":\""$ZOO_KERBEROS_API_PASSWORD"\"}" "$ZOO_KERBEROS_API_URL" -o "$keytab_location" && echo "INFO - Using the keytab from the API and a principal name of '"$ZOO_KERBEROS_API_USERNAME"'@'"$ZOO_KERBEROS_REALM"'" || echo "FAIL" )
                 if [ "$response" == "FAIL" ]; then
                     echo -e "\e[1;32mERROR - Kerberos API did not succeed when fetching zookeeper keytab. See curl error above for further details \e[0m"
                     exit 1
