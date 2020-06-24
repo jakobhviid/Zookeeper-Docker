@@ -2,7 +2,7 @@ version: "3"
 
 services:
   zoo:
-    image: cfei/zookeeper:2.0.0-beta
+    image: omvk97/zookeeper
     container_name: zookeeper
     restart: always
     ports:
@@ -14,12 +14,11 @@ services:
       ZOO_PORT: 2181
       # ZOO_SERVERS: server.1=0.0.0.0:2888:3888,server.2=kafka2.cfei.dk:2888:3888,server.3=kafka3.cfei.dk:2888:3888
       ZOO_AUTHENTICATION: KERBEROS
-      ZOO_KERBEROS_PUBLIC_URL: 172.19.0.1
-      ZOO_KERBEROS_API_URL: "http://172.19.0.1:3000/get-keytab"
-      ZOO_KERBEROS_API_USERNAME: zookeeper/localhost
-      ZOO_KERBEROS_API_PASSWORD: zookeeperPasswordTester
-      ZOO_KERBEROS_REALM: KAFKA.SECURE
+      ZOO_KERBEROS_PUBLIC_URL: 134.209.198.150
+      ZOO_KERBEROS_API_URL: "http://134.209.198.150:3000/get-keytab"
+      ZOO_KERBEROS_API_USERNAME: zookeeper/134.209.88.200
+      ZOO_KERBEROS_API_PASSWORD: zookeeperPassword
+      ZOO_KERBEROS_REALM: CFEI.SECURE
       ZOO_REMOVE_HOST_AND_REALM: "true"
-      ZOO_KERBEROS_PRINCIPAL: zookeeper/localhost@KAFKA.SECURE
     # volumes:
     #   - ./zookeeper.service.keytab:/sasl/zookeeper.service.keytab
