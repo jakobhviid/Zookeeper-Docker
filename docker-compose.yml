@@ -14,11 +14,9 @@ services:
       ZOO_PORT: 2181
       # ZOO_SERVERS: server.1=0.0.0.0:2888:3888,server.2=kafka2.cfei.dk:2888:3888,server.3=kafka3.cfei.dk:2888:3888
       ZOO_AUTHENTICATION: KERBEROS
-      ZOO_KERBEROS_PUBLIC_URL: 134.209.198.150
-      ZOO_KERBEROS_API_URL: "http://134.209.198.150:3000/get-keytab"
-      ZOO_KERBEROS_API_USERNAME: zookeeper/134.209.88.200
+      ZOO_KERBEROS_PUBLIC_URL: 64.225.77.236
+      ZOO_KERBEROS_API_URL: "http://64.225.77.236:3000/get-keytab"
+      ZOO_KERBEROS_API_USERNAME: zookeeper/161.35.145.163
       ZOO_KERBEROS_API_PASSWORD: zookeeperPassword
       ZOO_KERBEROS_REALM: CFEI.SECURE
       ZOO_REMOVE_HOST_AND_REALM: "true"
-    # volumes:
-    #   - ./zookeeper.service.keytab:/sasl/zookeeper.service.keytab
