@@ -40,7 +40,7 @@ A few environment variabels are required for zookeeper to work properly in a clu
 
 - `ZOO_REMOVE_HOST_AND_REALM`: This enables zookeeper to only enforce ACLs based on the principal name. This is very useful if you have a clustered setup with more than one zookeeper or if you have clients such as a kafka cluster with more than one broker. It enables clients and other zookeeper servers to have access to the same znodes if their principal has the same name. So if you have two kafka brokers with different hostnames but with the same principal name, they will be able to access the same content in zookeeper.
 
-- `ZOO_KERBEROS_API_URL`: The URL to use when zookeeper fetches keytabs from a kerberos server. The URL has to point to an HTTP GET Endpoint. The image will then supply the values of 'ZOO_KERBEROS_API_USERNAME' and 'ZOO_KERBEROS_API_PASSWORD' to the GET request. Required for [Kerberos Setup with a kerberos API](#kerberos-with).
+- `ZOO_KERBEROS_API_URL`: The URL to use when zookeeper fetches keytabs from a kerberos server. The URL has to point to an HTTP POST Endpoint. The image will then supply the values of 'ZOO_KERBEROS_API_USERNAME' and 'ZOO_KERBEROS_API_PASSWORD' to the request. Required for [Kerberos Setup with a kerberos API](#kerberos-with).
 
 - `ZOO_KERBEROS_API_USERNAME`: The username to use when fetching the keytab for zookeeper on KERBEROS_API_URL'. Required for [Kerberos Setup with a kerberos API](#kerberos-with).
 
@@ -95,7 +95,7 @@ services:
       ZOO_SERVERS: server.1=0.0.0.0:2888:3888,server.2=<<zookeeper2_ip>>:2888:3888,server.3=<<zookeeper3_ip>>:2888:3888
       ZOO_AUTHENTICATION: KERBEROS
       ZOO_KERBEROS_PUBLIC_URL:  <<kerberos_public_dns>>
-      ZOO_KERBEROS_API_URL: <<kerberos_api_public_dns>>/<<get_keytab_endpoint_route>>
+      ZOO_KERBEROS_API_URL: <<kerberos_api_public_dns>>/<<post_keytab_endpoint_route>>
       ZOO_KERBEROS_API_USERNAME: <<kerberos_zookeeper_principal_name>>
       ZOO_KERBEROS_API_PASSWORD: <<kerberos_api_zookeeper_password>>
       ZOO_KERBEROS_REALM: <<kerberos_realm>>
@@ -148,7 +148,7 @@ services:
       ZOO_SERVERS: server.1=0.0.0.0:2888:3888,server.2=<<zookeeper2_ip>>:2888:3888,server.3=<<zookeeper3_ip>>:2888:3888
       ZOO_AUTHENTICATION: KERBEROS
       KERBEROS_PUBLIC_URL:  <<kerberos_public_dns>>
-      ZOO_KERBEROS_API_URL: <<kerberos_api_public_dns>>/<<get_keytab_endpoint_route>>
+      ZOO_KERBEROS_API_URL: <<kerberos_api_public_dns>>/<<post_keytab_endpoint_route>>
       ZOO_KERBEROS_API_USERNAME: <<kerberos_zookeeper_principal_name>>
       ZOO_KERBEROS_API_PASSWORD: <<kerberos_api_zookeeper_password>>
       ZOO_KERBEROS_REALM: <<kerberos_realm>>

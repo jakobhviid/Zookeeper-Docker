@@ -73,16 +73,16 @@ if ! [[ -z "$ZOO_AUTHENTICATION" ]]; then
 
                 export ZOO_KERBEROS_PRINCIPAL="$ZOO_KERBEROS_API_USERNAME"@"$ZOO_KERBEROS_REALM"
                 # response will be 'FAIL' if it can't connect or if the url returned an error
-                response=$(curl --fail --connect-timeout 5 --retry 5 --retry-delay 5 --retry-max-time 30 --retry-connrefused --max-time 5 -X POST -H "Content-Type: application/json" -d "{\"username\":\""$ZOO_KERBEROS_API_USERNAME"\", \"password\":\""$ZOO_KERBEROS_API_PASSWORD"\"}" "$ZOO_KERBEROS_API_URL" -o "$keytab_location" && echo "INFO - Using the keytab from the API and a principal name of '"$ZOO_KERBEROS_API_USERNAME"'@'"$ZOO_KERBEROS_REALM"'" || echo "FAIL" )
+                response=$(curl --fail --connect-timeout 5 --retry 5 --retry-delay 5 --retry-max-time 30 --retry-connrefused --max-time 5 -X POST -H "Content-Type: application/json" -d "{\"username\":\""$ZOO_KERBEROS_API_USERNAME"\", \"password\":\""$ZOO_KERBEROS_API_PASSWORD"\"}" "$ZOO_KERBEROS_API_URL" -o "$keytab_location" && echo "INFO - Using the keytab from the API and a principal name of '"$ZOO_KERBEROS_API_USERNAME"'@'"$ZOO_KERBEROS_REALM"'" || echo "FAIL")
                 if [ "$response" == "FAIL" ]; then
                     echo -e "\e[1;32mERROR - Kerberos API did not succeed when fetching zookeeper keytab. See curl error above for further details \e[0m"
                     exit 1
                 fi
             fi
         else # user has supplied their own principals
-                # test if a keytab has been provided in the expected directory
+            # test if a keytab has been provided in the expected directory
             if ! [[ -f "${keytab_location}" ]]; then
-                echo -e "\e[1;32mERROR - Missing kerberos keytab file '/sasl/zookeeper.service.keytab'. This is required to enable kerberos. Provide it with a docker volume or docker mount \e[0m"
+                echo -e "\e[1;32mERROR - Missing kerberos keytab file '"$keytab_location"'. This is required to enable kerberos. Provide it with a docker volume or docker mount \e[0m"
                 exit 1
             else
                 echo "INFO - Using the supplied keytab and the principal from environment variable 'ZOO_KERBEROS_PRINCIPAL' "
