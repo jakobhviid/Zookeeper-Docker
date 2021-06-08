@@ -1,0 +1,9 @@
+
+This repository includes software developed at
+The Apache Software Foundation (http://www.apache.org/).
+
+This repository includes software components originally
+developed for Zookeeper (https://github.com/apache/zookeeper),
+licensed under the Apache 2.0 license. The licensing terms
+for Zookeeper code can be found at:
+https://github.com/apache/zookeeper/blob/master/LICENSE.txt
